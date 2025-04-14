@@ -1,0 +1,8 @@
+.warning{
+  background-color: gray;
+  color: red;
+}
+.error{
+  background-color: darkblue;
+  color: white;
+}

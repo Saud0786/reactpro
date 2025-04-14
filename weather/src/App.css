@@ -1,0 +1,73 @@
+.App {
+  text-align: center;
+ 
+}
+body{
+  background: linear-gradient(to right, #05ace9, #ef543c);
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.weatherbox{
+  height: 50vh;
+  width: 50vh;
+  margin-left: 80vh;
+}
+.icon{
+ left: 40%;
+ display: none;
+}
+.head{
+  color: white;
+  border: 2px solid black;
+  padding: 30px;
+}
+.head input{
+  width: 40vh;
+  height: 7vh;
+  border-radius: 10px;
+  border: #05ace9;
+  padding: 5px;
+  font-size: 20px;
+}
+.head button{
+  background-color: #05ace9;
+  padding: 15px 50px;
+  margin-left: 30px;
+  border-radius: 10px;
+  color: #fff;
+  border: none;
+}

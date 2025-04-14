@@ -1,0 +1,245 @@
+import React, { useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+
+function App() {
+  // notification show
+  // const notify = () => {
+  //   toast.success("Success message", {
+  //     position: "top-right",
+  //     autoClose: 3000,
+  //   });
+
+
+
+
+  // let [uname,setUname]=useState('')
+  // let [password,setPassword]=useState('')
+
+  // let handleSubmit=(event)=>{
+  //      event.preventDefault()
+  //      console.log(uname,password);
+
+  // }
+  // let getName=(event)=>{
+  //    setUname(event.target.value)
+  // }
+
+
+  // enquiry form
+  let [formData,setFormData]=useState(
+    {
+      uname:'',
+      uemail:'',
+      uphone:'',
+      umessage:'',
+      index:''
+    }
+  )
+  let getValue=(event)=>{
+    let oldData={...formData}
+    let inputName=event.target.name;
+    let inputValue=event.target.value;
+    oldData[inputName]=inputValue;
+    setFormData(oldData);
+
+  }
+
+
+
+
+
+// form submit
+  let [userData,setUserData]=useState([])
+  let handleSubmit=(event)=>{
+      let currUserData={
+      uname:formData.uname,
+      uemail:formData.uemail,
+      uphone:formData.uphone,
+      umessage:formData.umessage
+    }
+// check if exist or not email and phone
+  let checkFilterUser=userData.filter((v)=> v.uemail==formData.uemail || v.uphone==formData.uphone);
+
+  if(formData.index===""){
+  if(checkFilterUser.length==1){
+    
+    toast.error("Email or Mobile num already exists..");
+  }else{
+  let oldUserData=[...userData,currUserData]
+  setUserData(oldUserData)
+  setFormData(
+    {
+      uname:'',
+      uemail:'',
+      uphone:'',
+      umessage:'',
+      index:''
+    }
+  )
+  }
+}else{
+  let editIndex=formData.index;
+  let oldData=userData
+
+  let checkFilterUser=userData.filter((v,i)=> (v.uemail==formData.uemail || v.uphone==formData.uphone) 
+  && i!=editIndex);
+ if(checkFilterUser.length==0){
+  oldData[editIndex]['uname']=formData.uname
+  oldData[editIndex]['uemail']=formData.uemail
+  oldData[editIndex]['uphone']=formData.uphone
+  oldData[editIndex]['umessage']=formData.umessage
+  setUserData(oldData)
+  setFormData(
+    {
+      uname:'',
+      uemail:'',
+      uphone:'',
+      umessage:'',
+      index:''
+    })
+
+ }else{
+   toast.error("Email or Mobile num already exists..");
+ }
+
+ 
+}
+  event.preventDefault();
+  
+}
+
+// delete button working
+  let deleteRow=(indexNum)=>{
+    let filterDataAfterDelete=userData.filter((v,i)=>i!=indexNum)
+    setUserData(filterDataAfterDelete);
+    toast.success("Data deleted Successfull");
+  }
+
+// update buttton working
+ let updateRow=(index)=>{
+   let editData=userData.filter((v,i)=>i==index)[0]
+   editData['index']=index;
+   setFormData(editData)
+ }
+ 
+  
+  return (
+
+    <div className="App">
+
+      {/* <button onClick={notify}>Notify!</button>
+        <ToastContainer /> */}
+
+
+
+      {/* Form control */}
+      {/* <div className='container'>
+          <div className='row'>
+            <div className='col-lg-6'>
+              <form onSubmit={handleSubmit}>
+                 <div className='text-start my-3'>
+                     <label >UserName</label>
+                     <input type="text" onChange={(event)=>setUname(event.target.value)} className='form-control' value={uname}/>
+                 </div>
+                 <div className='text-start my-3'>
+                     <label >PassWord</label>
+                     <input type="password" onChange={(event)=>setPassword(event.target.value)} className='form-control' value={password}/>
+                 </div>
+                 <div className='text-start my-3'>
+                    <button className='p-3 px-5 bg-grey'>Login</button>
+                 </div>
+              </form>
+            </div>
+          </div>
+        </div> */}
+
+        <ToastContainer /> 
+      <div className='fluid'>
+        <div className='container'>
+          <div className='row'>
+            <div className='col-lg-6 text-center py-5'>
+              <h1>Enquiry Now</h1>
+            </div>
+          </div>
+          <div className='row'>
+            <div className='col-lg-5'>
+            {userData.length}
+              <form onSubmit={handleSubmit}>
+                <div className='pb-3'>
+                  <label className="form-label">Name</label>
+                  <input type="text" onChange={getValue} value={formData.uname} name='uname' className='form-control' />
+                </div>
+                <div className='pb-3'>
+                  <label className="form-label">Email</label>
+                  <input type="email" onChange={getValue} name='uemail'  value={formData.uemail} className='form-control' />
+                </div>
+                <div className='pb-3'>
+                  <label className="form-label">Phone</label>
+                  <input type="text" onChange={getValue} name='uphone'  value={formData.uphone} className='form-control' />
+                </div>
+                <div className='mb-3'>
+                  <label className="form-label">Message</label>
+                  <textarea className="form-control" onChange={getValue} value={formData.umessage} name='umessage' id="" rows={3}></textarea>
+                </div>
+
+                <button className='btn btn-primary'>
+                      {formData.index!==""?'Update':'save'}
+                </button>
+              </form>
+            </div>
+
+            <div className='col-lg-7'>
+                     
+            <table className="table">
+              <thead>
+                <tr>
+                  <th scope="col">Id</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Phone</th>
+                  <th scope="col">Message</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {userData.length>=1 ?
+
+             userData.map((obj,i)=>{
+                  return(
+                    <tr key={i}>
+                    <th scope="row">{i+1}</th>
+                    <td>{obj.uname}</td>
+                    <td>{obj.uemail}</td>
+                    <td>{obj.uphone}</td>
+                    <td>{obj.umessage}</td>
+                    <td>
+                      <button className='mx-2' onClick={()=>deleteRow(i)}>Delete</button>
+                      <button onClick={()=>updateRow(i)}>Update</button>
+                    </td>
+                  </tr>
+                  )
+             })
+                
+              :
+                <tr>
+                  <td>No Data Found</td>
+                </tr>
+                }
+                
+              </tbody>
+            </table>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  );
+}
+
+export default App;
